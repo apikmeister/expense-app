@@ -10,6 +10,24 @@ class NewTransaction extends StatelessWidget {
 
   NewTransaction(this.addTrx);
 
+  // Add method function submitData
+  void submitData() {
+    final enteredTitle = titleController.text;
+    final enteredAmount = double.parse(amountController.text);
+
+    //Check if the enteredTitle and enteredAmount is empty
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+      print('Please enter the title and amount');
+      return;
+    }
+
+    //To access the addTrx function from user_transaction.dart
+    addTrx(
+      enteredTitle,
+      enteredAmount,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -21,11 +39,14 @@ class NewTransaction extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Title'),
               controller: titleController,
+              onSubmitted: (_) => submitData(),
               //onChanged: (val) => { titleInput = val},   // Note: 1st approach
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               controller: amountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => submitData(),
               //onChanged: (val) => { amountInput = val},
             ),
             ElevatedButton(
@@ -36,10 +57,11 @@ class NewTransaction extends StatelessWidget {
               onPressed: () {
                 print(titleController);
                 print(amountController);
-                addTrx(
-                  titleController.text,
-                  double.parse(amountController.text),
-                );
+                (_) => submitData();
+                // addTrx(
+                //   titleController.text,
+                //   double.parse(amountController.text),
+                // );
               },
               child: Text('Add Transaction'),
             ),
