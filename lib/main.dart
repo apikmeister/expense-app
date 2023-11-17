@@ -1,4 +1,6 @@
 import 'package:expense_app/models/transaction.dart';
+import 'package:expense_app/widgets/new_transaction.dart';
+import 'package:expense_app/widgets/transaction_list.dart';
 import 'package:expense_app/widgets/user_transaction.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +16,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State {
+  final List<Transaction> _userTransactions = [
     Transaction(
         id: 't1', title: 'Nike Shoes', amount: 369.99, date: DateTime.now()),
     Transaction(
@@ -25,8 +32,35 @@ class MyHomePage extends StatelessWidget {
         date: DateTime.now()),
   ];
 
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  //add _addNewTransaction to cater for new record when user click
+  // either at AppBar button or Floating Action Button
+  void _addNewTransaction(String txTitle, double txAmount) {
+    final newTx = Transaction(
+      title: txTitle,
+      amount: txAmount,
+      date: DateTime.now(),
+      id: DateTime.now().toString(),
+    );
+
+    setState(() {
+      _userTransactions.add(newTx); // To retain the current records..
+    });
+  }
+
+  //This is the method/function to render the Modal Bottom Sheet...
+  void _startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child:
+              NewTransaction(_addNewTransaction), // Call new_transaction.dart
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +70,8 @@ class MyHomePage extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () =>
+                _startAddNewTransaction(context), //Assign  Modal Bottom Sheet
             icon: Icon(Icons.add),
           ),
         ],
@@ -54,13 +89,14 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            UserTransactions(),
+            // UserTransactions(),
+            TransactionList(_userTransactions)
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => _startAddNewTransaction(context),
         child: Icon(Icons.add),
       ),
     );

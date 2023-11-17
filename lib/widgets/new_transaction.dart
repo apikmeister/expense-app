@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  //Define the variable for handling changes to a TextField....
-  // late String titleInput;
-  // late String amountInput;
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+class NewTransaction extends StatefulWidget {
   late final Function addTrx;
 
   NewTransaction(this.addTrx);
+
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  //Define the variable for handling changes to a TextField....
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
 
   // Add method function submitData
   void submitData() {
@@ -22,10 +27,13 @@ class NewTransaction extends StatelessWidget {
     }
 
     //To access the addTrx function from user_transaction.dart
-    addTrx(
+    widget.addTrx(
       enteredTitle,
       enteredAmount,
     );
+
+    //To close the bottom sheet after user click the button
+    Navigator.of(context).pop();
   }
 
   @override
