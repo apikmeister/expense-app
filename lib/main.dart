@@ -11,6 +11,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
+      theme: ThemeData(
+        colorScheme:
+            ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(
+          secondary: Colors.amber,
+        ),
+      ),
       home: MyHomePage(),
     );
   }
