@@ -16,6 +16,22 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(
           secondary: Colors.amber,
         ),
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+            titleLarge: TextStyle(
+              fontFamily: 'OpenSans',
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+            bodyLarge: TextStyle(
+              fontFamily: 'OpenSans',
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+            bodyMedium: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 15,
+                color: Colors.red)),
       ),
       home: MyHomePage(),
     );
@@ -29,13 +45,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State {
   final List<Transaction> _userTransactions = [
-    Transaction(
-        id: 't1', title: 'Nike Shoes', amount: 369.99, date: DateTime.now()),
-    Transaction(
-        id: 't2',
-        title: 'Weekly Groceries',
-        amount: 356.53,
-        date: DateTime.now()),
+    // Transaction(
+    //     id: 't1', title: 'Nike Shoes', amount: 369.99, date: DateTime.now()),
+    // Transaction(
+    //     id: 't2',
+    //     title: 'Weekly Groceries',
+    //     amount: 356.53,
+    //     date: DateTime.now()),
   ];
 
   //add _addNewTransaction to cater for new record when user click
