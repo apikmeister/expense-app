@@ -1,4 +1,5 @@
 import 'package:expense_app/models/transaction.dart';
+import 'package:expense_app/widgets/chart.dart';
 import 'package:expense_app/widgets/new_transaction.dart';
 import 'package:expense_app/widgets/transaction_list.dart';
 import 'package:expense_app/widgets/user_transaction.dart';
@@ -84,6 +85,16 @@ class _MyHomePageState extends State {
     );
   }
 
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((trx) {
+      return trx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,15 +114,16 @@ class _MyHomePageState extends State {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('CHART!'),
-                elevation: 5,
-              ),
-            ),
+            // Container(
+            //   width: double.infinity,
+            //   child: Card(
+            //     color: Colors.blue,
+            //     child: Text('CHART!'),
+            //     elevation: 5,
+            //   ),
+            // ),
             // UserTransactions(),
+            Chart(_recentTransactions),
             TransactionList(_userTransactions)
           ],
         ),
