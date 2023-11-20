@@ -11,26 +11,36 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter App',
       theme: ThemeData(
         primarySwatch: Colors.purple,
         splashColor: Colors.amber,
         fontFamily: 'Quicksand',
-        textTheme: ThemeData.light().textTheme.copyWith(
-            titleLarge: TextStyle(
-              fontFamily: 'OpenSans',
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
-            bodyLarge: TextStyle(
-              fontFamily: 'OpenSans',
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-            bodyMedium: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 15,
-                color: Colors.red)),
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+          bodyLarge: TextStyle(
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+          bodyMedium: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 15,
+            color: Colors.red,
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
       ),
       home: MyHomePage(),
     );
@@ -45,19 +55,23 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State {
   final List<Transaction> _userTransactions = [
     Transaction(
-        id: 't1',
-        title: 'Nike Shoes',
-        amount: 369.99,
-        date: DateTime.now().subtract(Duration(days: 1))),
+      id: 't1',
+      title: 'Nike Shoes',
+      amount: 369.99,
+      date: DateTime.now().subtract(
+        Duration(days: 1),
+      ),
+    ),
     Transaction(
-        id: 't2',
-        title: 'Weekly Groceries',
-        amount: 156.53,
-        date: DateTime.now().subtract(Duration(days: 2))),
+      id: 't2',
+      title: 'Weekly Groceries',
+      amount: 156.53,
+      date: DateTime.now().subtract(
+        Duration(days: 2),
+      ),
+    ),
   ];
 
-  //add _addNewTransaction to cater for new record when user click
-  // either at AppBar button or Floating Action Button
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
       title: txTitle,
@@ -67,19 +81,17 @@ class _MyHomePageState extends State {
     );
 
     setState(() {
-      _userTransactions.add(newTx); // To retain the current records..
+      _userTransactions.add(newTx);
     });
   }
 
-  //This is the method/function to render the Modal Bottom Sheet...
   void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child:
-              NewTransaction(_addNewTransaction), // Call new_transaction.dart
+          child: NewTransaction(_addNewTransaction),
           behavior: HitTestBehavior.opaque,
         );
       },
@@ -115,15 +127,6 @@ class _MyHomePageState extends State {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // Container(
-            //   width: double.infinity,
-            //   child: Card(
-            //     color: Colors.blue,
-            //     child: Text('CHART!'),
-            //     elevation: 5,
-            //   ),
-            // ),
-            // UserTransactions(),
             Chart(_recentTransactions),
             TransactionList(_userTransactions)
           ],
