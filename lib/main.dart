@@ -13,10 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter App',
       theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(
-          secondary: Colors.amber,
-        ),
+        primarySwatch: Colors.purple,
+        splashColor: Colors.amber,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
             titleLarge: TextStyle(
@@ -46,13 +44,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State {
   final List<Transaction> _userTransactions = [
-    // Transaction(
-    //     id: 't1', title: 'Nike Shoes', amount: 369.99, date: DateTime.now()),
-    // Transaction(
-    //     id: 't2',
-    //     title: 'Weekly Groceries',
-    //     amount: 356.53,
-    //     date: DateTime.now()),
+    Transaction(
+        id: 't1',
+        title: 'Nike Shoes',
+        amount: 369.99,
+        date: DateTime.now().subtract(Duration(days: 1))),
+    Transaction(
+        id: 't2',
+        title: 'Weekly Groceries',
+        amount: 156.53,
+        date: DateTime.now().subtract(Duration(days: 2))),
   ];
 
   //add _addNewTransaction to cater for new record when user click
