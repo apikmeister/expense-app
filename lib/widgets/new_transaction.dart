@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   late final Function addTrx;
@@ -14,6 +15,7 @@ class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
 
   final amountController = TextEditingController();
+  late DateTime _selectedDate = DateTime.now();
 
   // Add method function submitData
   void submitData() {
@@ -34,6 +36,23 @@ class _NewTransactionState extends State<NewTransaction> {
 
     //To close the bottom sheet after user click the button
     Navigator.of(context).pop();
+  }
+
+  void _presentDataPicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2021),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      //To check if the user cancel the date picker
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
   }
 
   @override
@@ -57,10 +76,31 @@ class _NewTransactionState extends State<NewTransaction> {
               onSubmitted: (_) => submitData(),
               //onChanged: (val) => { amountInput = val},
             ),
+            Container(
+              height: 70,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _presentDataPicker();
+                    },
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
-                foregroundColor: Colors.black,
+                backgroundColor: Theme.of(context).primaryColor,
               ),
               onPressed: () {
                 print(titleController);
