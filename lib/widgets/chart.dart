@@ -29,7 +29,7 @@ class Chart extends StatelessWidget {
         // .substring(0, 1),
         'amount': totalSum,
       };
-    });
+    }).reversed.toList();
   }
 
   double get totalSpending {
