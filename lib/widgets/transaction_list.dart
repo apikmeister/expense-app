@@ -5,7 +5,11 @@ import 'package:intl/intl.dart';
 class TransactionList extends StatelessWidget {
   //To receive the Transaction list data, need to add List at transaction_list widget
   final List<Transaction> transactions;
-  TransactionList(this.transactions);
+  final Function deleteTrx;
+  TransactionList(
+    this.transactions,
+    this.deleteTrx,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +65,11 @@ class TransactionList extends StatelessWidget {
                           transactions[index].date,
                         ),
                         style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        color: Theme.of(context).colorScheme.error,
+                        onPressed: () => deleteTrx(transactions[index].id),
                       ),
                     ),
                   );

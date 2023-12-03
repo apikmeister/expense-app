@@ -118,6 +118,12 @@ class _MyHomePageState extends State {
     }).toList();
   }
 
+  void _deleteTransaction(String trxId) {
+    setState(() {
+      _userTransactions.removeWhere((trx) => trx.id == trxId);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,7 +144,7 @@ class _MyHomePageState extends State {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_userTransactions)
+            TransactionList(_userTransactions, _deleteTransaction)
           ],
         ),
       ),
