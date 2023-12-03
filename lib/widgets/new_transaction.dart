@@ -21,6 +21,7 @@ class _NewTransactionState extends State<NewTransaction> {
   void submitData() {
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
+    final enteredDate = _selectedDate;
 
     //Check if the enteredTitle and enteredAmount is empty
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
@@ -32,13 +33,14 @@ class _NewTransactionState extends State<NewTransaction> {
     widget.addTrx(
       enteredTitle,
       enteredAmount,
+      enteredDate,
     );
 
     //To close the bottom sheet after user click the button
     Navigator.of(context).pop();
   }
 
-  void _presentDataPicker() {
+  void _presentDatePicker() {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -81,12 +83,16 @@ class _NewTransactionState extends State<NewTransaction> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'No Date Chosen!'
+                          : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
-                      _presentDataPicker();
+                      _presentDatePicker();
                     },
                     child: Text(
                       'Choose Date',
@@ -105,7 +111,7 @@ class _NewTransactionState extends State<NewTransaction> {
               onPressed: () {
                 print(titleController);
                 print(amountController);
-                (_) => submitData();
+                submitData();
                 // addTrx(
                 //   titleController.text,
                 //   double.parse(amountController.text),

@@ -28,12 +28,14 @@ class _UserTransactionsState extends State<UserTransactions> {
 
   //To add a method known as _addNewTransaction() and setState() in order
   //to preserve the new value of data when rendering the user_transaction.
-  void _addNewTransaction(String trxTitle, double trxAmount) {
+  void _addNewTransaction(
+      String trxTitle, double trxAmount, DateTime chosenDate) {
     final newTrx = Transaction(
-        id: DateTime.now().toString(),
-        title: trxTitle,
-        amount: trxAmount,
-        date: DateTime.now());
+      id: DateTime.now().toString(),
+      title: trxTitle,
+      amount: trxAmount,
+      date: chosenDate,
+    );
 
     setState(() {
       _userTransactions.add(newTrx);
