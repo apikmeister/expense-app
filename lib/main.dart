@@ -117,6 +117,8 @@ class _MyHomePageState extends State {
     );
   }
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((trx) {
       return trx.date.isAfter(
@@ -153,20 +155,40 @@ class _MyHomePageState extends State {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.3,
-              child: Chart(_recentTransactions),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Show Chart',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                Switch.adaptive(
+                  activeColor: Theme.of(context).colorScheme.secondary,
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  },
+                ),
+              ],
             ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.7,
-              child: TransactionList(_userTransactions, _deleteTransaction),
-            ),
+            _showChart
+                ? Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.3,
+                    child: Chart(_recentTransactions),
+                  )
+                : Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.7,
+                    child:
+                        TransactionList(_userTransactions, _deleteTransaction),
+                  ),
             // Chart(_recentTransaction),
             // TransactionList(_userTransactions, _deleteTransaction),
           ],
